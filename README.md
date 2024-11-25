@@ -3,8 +3,11 @@ Development of a salary management system with an architecture composed of 4 mic
 
 ## Microservices Overview
 **Authentication API**: Provides robust login and registration mechanisms with JWT token-based authentication to ensure secure user access across all services.
+
 **Salary Management API**: A robust system that allows the creation, reading, updating, and deletion of salaries and salary components, with automatic updates for accepted salary proposals.
+
 **Report Excel API**: A robust system that allows sending Excel reports via email to the authenticated user.
+
 **Portal API**: A robust microservice that accesses the other 3 microservices for user authentication and authorization, managing secure API access based on the user's role.
 
 ## Tech Stack
