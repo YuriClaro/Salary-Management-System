@@ -1,0 +1,43 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: salary_api
+  kafka:
+    bootstrap-servers: localhost:9092
+    topic:
+      all_salary: all_salary
+      all_salaries_status: all_salaries_status
+      all_salaries_between_dates: all_salaries_between_dates
+      salary_collaborator_id: salary_collaborator_id
+      email_all_salaries: email_all_salaries
+      email_all_salaries_status: email_all_salaries_status
+      email_all_salaries_dates: email_all_salaries_dates
+      email_salary_collaborator_id: email_salary_collaborator_id
+    group:
+      all_salary: all_salary
+      all_salaries_status: all_salaries_status
+      all_salaries_between_dates: all_salaries_between_dates
+      salary_collaborator_id: salary_collaborator_id
+  datasource:
+    url: jdbc:postgresql://localhost:5432/salary_project
+    username: postgres
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      default_schema: schema_salary
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+  liquibase:
+    default-schema: schema_salary
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
