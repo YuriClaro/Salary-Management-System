@@ -13,6 +13,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Audited
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Collaborator extends Auditable {

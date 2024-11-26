@@ -14,6 +14,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Audited
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class SalaryComponent extends Auditable {
