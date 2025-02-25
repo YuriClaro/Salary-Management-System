@@ -1,0 +1,37 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: authentication_api
+  datasource:
+    url: jdbc:postgresql://postgres:5432/salary_project
+    username: postgres
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      default_schema: schema_authentication
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      hibernate.id.db_structure_naming_strategy: legacy
+
+  liquibase:
+    default-schema: schema_authentication
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+application:
+  security:
+    jwt:
+      secret-key: cHJlc2lkZW50YnJpZGdldmFwb3J0aW5zdG9wYXRvbW91dGZyYW1lY2hhcmFjdGVyaGE=
+      expiration: 259200000  # 3 day
+      refresh-token:
+        expiration: 864000000  # 10 days

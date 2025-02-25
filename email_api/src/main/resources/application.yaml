@@ -1,0 +1,49 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: email_api
+  kafka:
+    consumer:
+      bootstrap-servers: kafka:9092
+      topic:
+        email_all_salaries: email_all_salaries
+        email_all_salaries_status: email_all_salaries_status
+        email_all_salaries_dates: email_all_salaries_dates
+        email_salary_collaborator_id: email_salary_collaborator_id
+        email_all_own_salaries: email_all_own_salaries
+      group:
+        email: email_group
+  datasource:
+    url: jdbc:postgresql://postgres:5432/salary_project
+    username: postgres
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      default_schema: schema_email
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+  liquibase:
+    default-schema: schema_email
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: yuri.claro99@gmail.com
+    password: mnrp gmrx rntr jgso
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

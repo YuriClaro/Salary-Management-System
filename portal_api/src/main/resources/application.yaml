@@ -1,0 +1,24 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: portal_api
+  kafka:
+    bootstrap-servers: kafka:9092
+    topic:
+      all_salary: all_salary
+      all_salaries_between_dates: all_salaries_between_dates
+      all_salaries_status: all_salaries_status
+      salary_collaborator_id: salary_collaborator_id
+      all_own_salaries: all_own_salaries
+
+microservice:
+  authentication_api: http://authentication-api:8082/api/v1/auth
+  salary_api: http://salary-api:8081/api/v1/salary
+  salary_components_api: http://salary-api:8081/api/v1/salary/components
+
+application:
+  security:
+    jwt:
+      secret-key: cHJlc2lkZW50YnJpZGdldmFwb3J0aW5zdG9wYXRvbW91dGZyYW1lY2hhcmFjdGVyaGE=
