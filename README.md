@@ -1,16 +1,16 @@
-# Salary Management System
-Development of a salary management system with an architecture composed of 4 microservices orchestrated via Docker. APIs protected with Spring Security and JWT, data auditing with Hibernate Envers, and database versioning with Liquibase. Asynchronous communication via Apache Kafka for sending Excel reports to the authenticated user.
+# Sistema de Gerenciamento de Salários
+Desenvolvimento de um sistema de gerenciamento de salários com uma arquitetura composta por 4 microsserviços orquestrados via Docker. APIs protegidas com Spring Security e JWT, auditoria de dados com Hibernate Envers e versionamento de banco de dados com Liquibase. Comunicação assíncrona via Apache Kafka para envio de relatórios Excel ao usuário autenticado.
 
-## Microservices Overview
-**Authentication API**: Provides robust login and registration mechanisms with JWT token-based authentication to ensure secure user access across all services.
+## Visão Geral dos Microsserviços
+**Authentication API**: Fornece mecanismos robustos de login e registro com autenticação baseada em token JWT para garantir acesso seguro aos serviços.
 
-**Salary Management API**: A robust system that allows the creation, reading, updating, and deletion of salaries and salary components, with automatic updates for accepted salary proposals.
+**Salary Management API**: Permite a criação, leitura, atualização e exclusão de salários e componentes salariais, com atualizações automáticas para propostas de salário aceitas.
 
-**Report Excel API**: A robust system that allows sending Excel reports via email to the authenticated user.
+**Report Excel API**: Sistema que permite o envio de relatórios Excel via e-mail ao usuário autenticado.
 
-**Portal API**: A robust microservice that accesses the other 3 microservices for user authentication and authorization, managing secure API access based on the user's role.
+**Portal API**: Microsserviço que acessa os outros 3 microsserviços para autenticação e autorização de usuários, gerenciando o acesso seguro com base no papel do usuário.
 
-## Tech Stack
+## Tecnologias Utilizadas
 - Java 21
 - Spring Boot 3
 - Spring Data JPA
@@ -30,59 +30,61 @@ Development of a salary management system with an architecture composed of 4 mic
 - Swagger
 - MapStruct
 
-## Architecture
-The Salary Management System follows a microservices architecture, with independent services communicating via Kafka for asynchronous communication or synchronous FeignClient calls. Each service is designed for scalability, reliability, and modularity.
+## Arquitetura
+O Sistema de Gerenciamento de Salários segue uma arquitetura de microsserviços, com serviços independentes se comunicando via Kafka para comunicação assíncrona ou chamadas FeignClient para comunicação síncrona. Cada serviço é projetado para escalabilidade, confiabilidade e modularidade.
 
-## API Documentation
-The ``Portal API`` interacts with the``Authentication API``, ``Salary Management API`` and ``Email API`` to handle authentication, salary management, and email functionalities.
+![Imagem 1](/images/UML.jpg)
+
+## Documentação das APIs
+The ``Portal API`` interage com as APIs ``Authentication API``, ``Salary Management API`` e ``Email API`` para lidar com autenticação, gerenciamento de salários e funcionalidades de e-mail.
 
 ## Authentication API
-``POST /sign-in``: Authenticates a user and returns a JWT response.
+``POST /sign-in``: Autentica um usuário e retorna um token JWT.
 
-``POST /refreshToken``: Refreshes the JWT token for an authenticated user.
+``POST /refreshToken``: Atualiza o token JWT para um usuário autenticado.
 
 ## Salary Management
 #### Salary
-``POST /api/v1/portal/salary``: Creates a new Salary with the provided details.
+``POST /api/v1/portal/salary``: Cria um novo salário com os detalhes fornecidos.
 
-``GET /api/v1/portal/salary``: Retrieves a paginated list of all Salaries.
+``GET /api/v1/portal/salary``: Recupera uma lista paginada de todos os salários.
 
-``GET /api/v1/portal/salary/{id}``: Retrieves a Salary by its unique identifier.
+``GET /api/v1/portal/salary/{id}``: Recupera um salário pelo seu identificador único.
 
-``GET /api/v1/portal/salary/search``: Retrieves all salaries based on status and a date range.
+``GET /api/v1/portal/salary/search``: Recupera todos os salários com base no status e em um intervalo de datas.
 
-``POST /api/v1/portal/salary/proposed/salaryId={id}``: Allows a collaborator to accept a proposed salary decision by providing their decision and the associated salary ID
+``POST /api/v1/portal/salary/proposed/salaryId={id}``: Permite que um colaborador aceite uma proposta de salário, fornecendo sua decisão e o ID do salário associado.
 
-``POST /api/v1/portal/salary/my-salaries``: Retrieve a paginated list of salaries associated with the authenticated collaborator. Only the collaborator can view their own salaries
+``POST /api/v1/portal/salary/my-salaries``: Recupera uma lista paginada de salários associados ao colaborador autenticado. Apenas o colaborador pode visualizar seus próprios salários.
 
-``GET /api/v1/portal/salary/collaboratorId={id}``:Retrieves a paginated list of all Salaries associated with a specific collaborator.
+``GET /api/v1/portal/salary/collaboratorId={id}``: Recupera uma lista paginada de todos os salários associados a um colaborador específico.
 
-``PUT /api/v1/portal/salary/{id}``: Updates a salary by its ID.
+``PUT /api/v1/portal/salary/{id}``: Atualiza um salário pelo seu ID.
 
-``DELETE /api/v1/portal/salary/{id}``: Deletes a salary by its ID.
+``DELETE /api/v1/portal/salary/{id}``: Exclui um salário pelo seu ID.
 
 #### Salary Components
 
-``POST /api/v1/portal/salary/components``: Creates a new salary component.
+``POST /api/v1/portal/salary/components``: Cria um novo componente salarial.
 
-``GET /api/v1/portal/salary/components``: Retrieves all salaries components.
+``GET /api/v1/portal/salary/components``: Recupera todos os componentes salariais.
 
-``GET /api/v1/portal/salary/components/{id}``: Retrieves a salary component by its ID.
+``GET /api/v1/portal/salary/components/{id}``: Recupera um componente salarial pelo seu ID.
 
-``GET /api/v1/portal/salary/components/salaryId={id}``: Retrieves all salaries components based on salary id
+``GET /api/v1/portal/salary/components/salaryId={id}``: Recupera todos os componentes salariais com base no ID do salário.
 
-``PUT /api/v1/portal/salary/components/{id}``: Updates a salary  component by its ID.
+``PUT /api/v1/portal/salary/components/{id}``: Atualiza um componente salarial pelo seu ID.
 
-``DELETE /api/v1/portal/salary/components/{id}``: Deletes a salary component by its ID.
+``DELETE /api/v1/portal/salary/components/{id}``: Exclui um componente salarial pelo seu ID.
 
 ## Export Report
 
-`POST /api/v1/portal/export/all/salaries`: Exports all salaries to an external file, triggered by an authorized request. 
+``POST /api/v1/portal/export/all/salaries``: Exporta todos os salários para um arquivo externo, acionado por uma solicitação autorizada.
 
-`POST /api/v1/portal/export/dates`: Exports all salaries between dates to an external file, triggered by an authorized request 
+``POST /api/v1/portal/export/dates``: Exporta todos os salários entre datas para um arquivo externo, acionado por uma solicitação autorizada.
 
-`POST /api/v1/portal/export/status`: Exports all salaries by status to an external file, triggered by an authorized request
+``POST /api/v1/portal/export/status``: Exporta todos os salários por status para um arquivo externo, acionado por uma solicitação autorizada.
 
-`POST /api/v1/portal/export/collaboratorId={id}`: Exports salary by collaborator ID to an external file, triggered by an authorized request
+``POST /api/v1/portal/export/collaboratorId={id}``: Exporta salários por ID do colaborador para um arquivo externo, acionado por uma solicitação autorizada.
 
-`POST /api/v1/portal/export/my-salaries`: Exports own salary by user authenticated to an external file, triggered by an authorized request
+``POST /api/v1/portal/export/my-salaries``: Exporta os próprios salários do usuário autenticado para um arquivo externo, acionado por uma solicitação autorizada.
