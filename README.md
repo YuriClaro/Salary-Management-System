@@ -1,3 +1,5 @@
+Formação Java 2024 pela Empresa HumanIT
+
 # Sistema de Gerenciamento de Salários
 Desenvolvimento de um sistema de gerenciamento de salários com uma arquitetura composta por 4 microsserviços orquestrados via Docker. APIs protegidas com Spring Security e JWT, auditoria de dados com Hibernate Envers e versionamento de banco de dados com Liquibase. Comunicação assíncrona via Apache Kafka para envio de relatórios Excel ao usuário autenticado.
 
